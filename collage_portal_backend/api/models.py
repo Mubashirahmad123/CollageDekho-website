@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils.text import slugify
 from django.template.defaultfilters import truncatechars
+
 # from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -41,7 +42,9 @@ class College(models.Model):
     # has_virtual_tour = models.BooleanField(default=False)
     # has_video_tour = models.BooleanField(default=False)
     virtual_tour_link = models.URLField(max_length=100, null=True, blank=True)
-    ratings = models.ForeignKey('Review', on_delete=models.CASCADE)
+    virtual_360_tour_link = models.URLField(max_length=100, null=True, blank=True)  # Field for virtual 360 tour link
+
+    # ratings = models.ForeignKey('Review', on_delete=models.CASCADE)
     # this is committed for later use
     # university = models.ForeignKey(University, on_delete=models.CASCADE)
     
@@ -84,7 +87,7 @@ class Course(models.Model):
         Specialization,
         on_delete=models.CASCADE,
         null=True,
-        blank=True,
+        blank=True, #need to check this one
     )
     description = models.CharField(max_length=1000, null=True, blank=True)
     duration = models.DurationField()
@@ -93,7 +96,6 @@ class Course(models.Model):
     # departments = models.ManyToManyField('Department', related_name='courses_reverse')
     
     
-    # Specialization model
     
 
     
@@ -115,7 +117,7 @@ class Course(models.Model):
 # Fee model
 
 class Fee(models.Model):
-    college = models.ForeignKey(College, on_delete=models.CASCADE)
+    # college = models.ForeignKey(College, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     fee = models.IntegerField()
     # currency = models.CharField(max_length=3) 
@@ -143,7 +145,7 @@ class Department(models.Model):
     description = models.CharField(max_length=1000, null=True, blank=True)
     head_of_department = models.CharField(max_length=50, null=True, blank=True)
     image = models.ImageField(upload_to='department_images/', null=True, blank=True)
-    courses = models.ForeignKey(Course, on_delete=models.CASCADE)
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE) # not approprate as dept is lonked with  as ]
 
 # Country model
 class Country(models.Model):
@@ -194,43 +196,24 @@ class Admission(models.Model):
     
     
     # User Profile model
+
 class UserProfile(models.Model):
-    user = models.ForeignKey('Form', on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=100)  
-    contact_number = models.CharField(max_length=20, blank=True, null=True)  
+    user = models.OneToOneField('Form', on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=100)
+    contact_number = models.CharField(max_length=20, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     preferences = models.JSONField(null=True, blank=True)
-    # password = models.Pass
-    
+    password = models.CharField(max_length=128)  # Field to store hashed password
+
     def save(self, *args, **kwargs):
-        """
-        Overrides the save method to ensure the associated User object is saved first.
-
-        This method saves the associated User object before saving the UserProfile object itself.
-        This ensures that any changes made to the User object are persisted to the database
-        before saving the UserProfile object.
-
-        Args:
-            *args: Additional positional arguments.
-            **kwargs: Additional keyword arguments.
-
-        Returns:
-            None
-        """
-        self.user.save()  # Save the associated User object
+        # Hash the password before saving
+        self.user.set_password(self.password)
+        # Save the associated User object
+        self.user.save()
         super().save(*args, **kwargs)  # Call the save method of the superclass
 
     def __str__(self):
-        """
-        Returns a string representation of the UserProfile object.
-
-        This method returns the username of the associated User object.
-
-        Returns:
-            str: Username of the associated User object.
-        """
-        return self.user.username
-
+        return self.user.username    
 
 # video tour 
 # class VideoTour(models.Model):
@@ -271,7 +254,6 @@ class UserProfile(models.Model):
 
 
 # Form Model
-
 class Form(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -283,8 +265,8 @@ class Form(models.Model):
         return f'Form by {self.email, self.phone}'
     
 # review model
-
 class Review(models.Model):
+       college = models.ForeignKey(College, on_delete=models.CASCADE)
        ratings = models.IntegerField()
        remarks = models.TextField() 
        user = models.ForeignKey(User,on_delete=models.CASCADE)
