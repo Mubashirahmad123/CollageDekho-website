@@ -42,8 +42,8 @@ class College(models.Model):
     # has_virtual_tour = models.BooleanField(default=False)
     # has_video_tour = models.BooleanField(default=False)
     virtual_tour_link = models.URLField(max_length=100, null=True, blank=True)
-    virtual_360_tour_link = models.URLField(max_length=100, null=True, blank=True)  # Field for virtual 360 tour link
-
+    # virtual_360_tour_link = models.URLField(max_length=100, null=True, blank=True)  # Field for virtual 360 tour link
+    virtual_360_tour = models.ImageField(upload_to='virtual_tours/', null=True, blank=True)
     # ratings = models.ForeignKey('Review', on_delete=models.CASCADE)
     # this is committed for later use
     # university = models.ForeignKey(University, on_delete=models.CASCADE)
@@ -145,7 +145,7 @@ class Department(models.Model):
     description = models.CharField(max_length=1000, null=True, blank=True)
     head_of_department = models.CharField(max_length=50, null=True, blank=True)
     image = models.ImageField(upload_to='department_images/', null=True, blank=True)
-    courses = models.ForeignKey(Course, on_delete=models.CASCADE) # not approprate as dept is lonked with  as ]
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE) # not appropriate as dept is linked with  collage
 
 # Country model
 class Country(models.Model):
