@@ -198,7 +198,7 @@ class Admission(models.Model):
     # User Profile model
 
 class UserProfile(models.Model):
-    user = models.OneToOneField('Form', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
@@ -209,7 +209,7 @@ class UserProfile(models.Model):
         # Hash the password before saving
         self.user.set_password(self.password)
         # Save the associated User object
-        self.user.save()
+        # self.user.save()
         super().save(*args, **kwargs)  # Call the save method of the superclass
 
     def __str__(self):
