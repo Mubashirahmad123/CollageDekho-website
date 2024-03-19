@@ -37,7 +37,7 @@ class College(models.Model):
     institution_type = models.CharField(max_length=50, null=True, blank=True)
     affiliation = models.CharField(max_length=100, null=True, blank=True)
     campus_facilities = models.TextField(null=True, blank=True)
-    ranking = models.CharField(max_length=100, null=True, blank=True)
+    ranking = models.IntegerField(null=True, blank=True)
     image = models.ImageField(upload_to='college_images/', null=True, blank=True)
     # has_virtual_tour = models.BooleanField(default=False)
     # has_video_tour = models.BooleanField(default=False)
@@ -149,6 +149,7 @@ class Department(models.Model):
 
 # Country model
 class Country(models.Model):
+
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=3, unique=True)  
     description = models.TextField(blank=True, null=True)
