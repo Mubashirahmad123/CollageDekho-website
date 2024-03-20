@@ -4,6 +4,8 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils.text import slugify
 from django.template.defaultfilters import truncatechars
+from django.utils import timezone
+
 
 # from phonenumber_field.modelfields import PhoneNumberField
 
@@ -272,8 +274,8 @@ class Form(models.Model):
 class Review(models.Model):
        college = models.ForeignKey(College, on_delete=models.CASCADE)
        ratings = models.IntegerField()
-       author = models.ForeignKey('UserProfile', on_delete=models.CASCADE) # made this ltr so i have not check it
-       date_created = models.DateTimeField(auto_now_add=True) # made this ltr so i have not check it
+       author = models.ForeignKey('UserProfile', on_delete=models.CASCADE, null=True) # made this ltr so i have not check it
+       date_created = models.DateTimeField(default=timezone.now) # made this ltr so i have not check it
        remarks = models.TextField() 
        user = models.ForeignKey(User,on_delete=models.CASCADE)
        
