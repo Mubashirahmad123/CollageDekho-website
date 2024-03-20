@@ -46,7 +46,9 @@ class College(models.Model):
     virtual_360_tour = models.ImageField(upload_to='virtual_tours/', null=True, blank=True)
     # ratings = models.ForeignKey('Review', on_delete=models.CASCADE)
     # this is committed for later use
-    # university = models.ForeignKey(University, on_delete=models.CASCADE)
+    # university = models.ForeignKey(University, on_delete=models.
+    # CASCADE)
+    course = models.ForeignKey
     
     class Meta:
         verbose_name_plural = "Colleges"
@@ -58,6 +60,7 @@ class College(models.Model):
 #Specialization Model
 class Specialization(models.Model):
     # college = models.ForeignKey(College, on_delete=models.CASCADE)
+    # course = models.ForeignKey('Course', on_delete=models.CASCADE)
     name = models.CharField(max_length=50, db_index=True)
     # duration = models.DurationField()
     total_avg_fee = models.DecimalField(max_digits=10, decimal_places=2)

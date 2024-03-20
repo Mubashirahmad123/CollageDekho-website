@@ -4,6 +4,9 @@ from .models import *
 
 
 class CollegeSerializer(serializers.ModelSerializer):
+    
+    # courses = CourseSerializer(many=True, read_only=True)
+    # department = DepartmentSerializer(many=True, read_only=True)
     class Meta:
         model = College
         fields = '__all__'
@@ -27,6 +30,39 @@ class CourseSerializer(serializers.ModelSerializer):
         # Create the course associated with the college
         course = Course.objects.create(college=college, **validated_data)
         return course
+
+
+class SpecializationSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Specialization
+        fields = '__all__'
+                
+        
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    
+    courses = CourseSerializer(many=True, read_only=True)
+    specializations = SpecializationSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Department
+        fields = '__all__'
+        
+class FeeSerializer(serializers.ModelSerializer):
+    
+    department = DepartmentSerializer()
+    
+    
+    
+    class Meta:
+        model = Fee
+        fields = '__all__'
         
         
-        
+class CountrySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Country
+        fields = '__all__'        
