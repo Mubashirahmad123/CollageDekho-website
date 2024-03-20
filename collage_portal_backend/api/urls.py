@@ -66,6 +66,14 @@ urlpatterns = [
 
 
 
+# Review url
+
+    path('reviews/', ReviewView.as_view(), name='review-list'),  # Endpoint to list all reviews
+    path('reviews/create/', ReviewCreateView.as_view(), name='review-create'),  # Endpoint to create a new review
+    path('reviews/<int:pk>/', ReviewDetailView.as_view(), name='review-detail'),  # Endpoint to retrieve a specific review
+    path('reviews/update/<int:pk>/', ReviewUpdateView.as_view(), name='review-update'),  # Endpoint to update a review
+    path('reviews/delete/<int:pk>/', ReviewDeleteView.as_view(), name='review-delete'),  
+
 ]
   
   

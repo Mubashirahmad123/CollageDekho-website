@@ -272,9 +272,12 @@ class Form(models.Model):
 class Review(models.Model):
        college = models.ForeignKey(College, on_delete=models.CASCADE)
        ratings = models.IntegerField()
+       author = models.ForeignKey('UserProfile', on_delete=models.CASCADE) # made this ltr so i have not check it
+       date_created = models.DateTimeField(auto_now_add=True) # made this ltr so i have not check it
        remarks = models.TextField() 
        user = models.ForeignKey(User,on_delete=models.CASCADE)
        
        def __str__(self):
-        return f'Review by {self.user.username}'
+            return f"Review by {self.author.username} for {self.college.name} ({self.rating})"
+
        

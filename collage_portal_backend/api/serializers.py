@@ -66,3 +66,15 @@ class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = '__all__'        
+        
+
+
+class   ReviewSerializer(serializers.ModelSerializer):
+    
+    # country = CountrySerializer()
+    # course = CourseSerializer()
+    # college = CollegeSerializer() Dont add these three
+     
+    class Meta:
+        model = Review
+        fields = '__all__' 
