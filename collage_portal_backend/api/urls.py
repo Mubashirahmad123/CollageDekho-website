@@ -73,6 +73,13 @@ urlpatterns = [
     path('reviews/<int:pk>/', ReviewDetailView.as_view(), name='review-detail'),  # Endpoint to retrieve a specific review
     path('reviews/update/<int:pk>/', ReviewUpdateView.as_view(), name='review-update'),  # Endpoint to update a review
     path('reviews/delete/<int:pk>/', ReviewDeleteView.as_view(), name='review-delete'),  
+    
+# Admission Urls
+    path('admission/', AdmissionListView.as_view(), name='admission-list'),
+    path('admission/<int:pk>/', AdmissionDetailView.as_view(), name='admission-detail'),
+    path('admission/create/', AdmissionCreateView.as_view(), name='admission-create'),
+    path('admission/update/<int:pk>/', AdmissionUpdateView.as_view(), name='admission-update'),
+    path('admission/delete/<int:pk>/', AdmissionDeleteView.as_view(), name='admission-delete'),
 
 ]
   

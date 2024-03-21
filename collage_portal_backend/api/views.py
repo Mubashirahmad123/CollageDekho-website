@@ -372,3 +372,52 @@ class ReviewDeleteView(generics.DestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Only the author of the review can delete it
+
+
+# Admission view
+
+class AdmissionListView(ListAPIView):
+    queryset = Admission.objects.all()
+    serializer_class = AdmissionSerializer
+
+class AdmissionDetailView(RetrieveAPIView):
+    queryset = Admission.objects.all()
+    serializer_class = AdmissionSerializer
+
+class AdmissionCreateView(CreateAPIView):
+    queryset = Admission.objects.all()
+    serializer_class = AdmissionSerializer
+    permission_classes = [permissions.IsAdminUser]
+    
+    def post(self, request, *args, **kwargs):
+       if request.user.is_superuser :
+           return super().post(request,*args,**kwargs)
+       else:
+           return Response({"error": "Only superusers can create data"}, status=status.HTTP_403_FORBIDDEN)
+
+
+class AdmissionUpdateView(UpdateAPIView):
+    queryset = Admission.objects.all()
+    serializer_class = AdmissionSerializer
+    permission_classes = [permissions.IsAdminUser]
+    
+    def put(self, request, *args, **kwargs ):
+       if request.user.is_superuser :
+           return super().put(request,*args,**kwargs)
+       else:
+           return Response({"error": "Only superusers can update data"}, status=status.HTTP_403_FORBIDDEN)
+
+
+class AdmissionDeleteView(DestroyAPIView):
+    queryset = Admission.objects.all()
+    serializer_class = AdmissionSerializer
+    permission_classes = [permissions.IsAdminUser]
+    
+    
+    def delete(self, request, *args, **kwargs):
+       if request.user.is_superuser :
+           return super().destroy(request,*args,**kwargs)
+       else:
+           return Response({"error": "Only superusers can delete data."}, status=status.HTTP_403_FORBIDDEN)
+
+    

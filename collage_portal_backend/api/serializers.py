@@ -78,3 +78,11 @@ class   ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__' 
+        
+
+
+class AdmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admission
+        fields =  '__all__'
+              
